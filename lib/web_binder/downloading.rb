@@ -5,7 +5,7 @@ class WebBinder
     def download
       clear! if get(:clear_before_downloading)
       get(:sources).each.with_index(0) do |source, idx|
-        open(save_path(source), "w").write(connection.get(source).body)
+        open(save_path(source), "wb").write(connection.get(source).body)
         if idx < get(:sources).size
           sleep get(:each_sleep_time) || DEFAULT_EACH_SLEEP_TIME
         end
