@@ -42,7 +42,7 @@ class WebBinder
     def save_path(source)
       filename = FileName.new(File.join(save_directory(source), save_filename(source)),
                               :add => :auto, :type => :time, :directory => :parent)
-      filename.create
+      filename.create[0, 150]
     end
   end
 end
