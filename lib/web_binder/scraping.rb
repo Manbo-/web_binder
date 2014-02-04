@@ -36,7 +36,7 @@ class WebBinder
 
     def docs
       pathes.map do |filename|
-        open(filename).read
+        File.read(filename)
       end
     end
 
