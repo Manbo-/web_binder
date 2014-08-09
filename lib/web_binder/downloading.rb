@@ -36,6 +36,7 @@ class WebBinder
       uri = URI.parse(source)
       basename = File.basename(source)
       basename = "index.html" if uri.host == basename
+      basename += ".html" if basename !~ /\./
       basename.gsub(UNSAFE_FILENAME_CHARS, "_")
     end
 
