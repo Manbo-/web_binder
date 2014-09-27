@@ -5,6 +5,10 @@ class WebBinder
         @sources += sources 
       end
 
+      def user_agent(user_agent)
+        @user_agent = user_agent
+      end
+
       def download_directory(download_directory)
         @download_directory = download_directory
       end

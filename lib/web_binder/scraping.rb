@@ -41,7 +41,9 @@ class WebBinder
     end
 
     def pathes
-      get(:sources).map{ |source| Dir.glob(glob_path(source)) }.flatten
+      get(:sources).map{ |source| Dir.glob(glob_path(source)) }.flatten.reject do |entry|
+        File.directory?(entry)
+      end
     end
   end
 end

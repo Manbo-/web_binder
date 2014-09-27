@@ -24,6 +24,25 @@ describe WebBinder do
           .from(false).to(true)
       end
     end
+
+    context "when specify user agent" do 
+      let(:binder) do
+        Class.new(WebBinder) do
+          sources "http://www.yahoo.co.jp/"
+          download_directory "spec/temp"
+          user_agent "WebBinder"
+          
+          r = "http://www.yahoo.co.jp/"
+          scrape :links do |doc|
+            doc.search("//a").map{ |a| URI.join(r, a[:href]).to_s }
+          end
+        end
+      end
+
+      it do
+        expect(binder.send(:connection).headers).to eq({ "User-Agent" => "WebBinder" })
+      end
+    end
   end
 
   describe ".scrape" do
@@ -44,7 +63,7 @@ describe WebBinder do
     end
 
     it do
-      expect_any_instance_of(WebBinder::Downloading).to receive(:clear!)
+      expect(binder).to receive(:clear!)
       VCR.use_cassette "yahoo" do
         binder.download
       end
@@ -59,7 +78,7 @@ describe WebBinder do
     end
 
     it do
-      expect_any_instance_of(WebBinder::Downloading).to receive(:download)
+      expect(binder).to receive(:download)
       VCR.use_cassette "yahoo" do
         binder.links
       end

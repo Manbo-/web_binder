@@ -22,9 +22,12 @@ class WebBinder
     UNSAFE_FILENAME_CHARS = /<|>|:|"|\\|\||\?|\*/
 
     def connection
-      @connection ||= Faraday.new do |builder|
+      return @connection if @connection
+      @connection = Faraday.new do |builder|
         builder.adapter :net_http
       end
+      @connection.headers = { "User-Agent" => get(:user_agent) } if get(:user_agent)
+      @connection
     end
 
     def save_directory(source)
