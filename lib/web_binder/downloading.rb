@@ -24,6 +24,7 @@ class WebBinder
     def connection
       return @connection if @connection
       @connection = Faraday.new do |builder|
+        builder.use FaradayMiddleware::FollowRedirects
         builder.adapter :net_http
       end
       @connection.headers = { "User-Agent" => get(:user_agent) } if get(:user_agent)
